@@ -71,8 +71,8 @@
   $(document).ready(function() {
     var notes = [
       {"img":"1.png",
-       "note":"Looking at Neo4j's Cypher query language, compared to SQL, and how we can explore answering scientific questions with Cypher as we typically would with SQL in an RDBMS. We'll explore SQL vs NoSQL in the graphdb context, and see some Cypher vs SQL approaches to Bioinformatics data - specifically to gene co-occurance across genomic features."},
-      {"img":"2.png","note":"Let's do this!  Rock 'em Sock 'em stylie."},
+       "note":"What is Neo4j's Cypher query language?  How does it compared to SQL?  How can we explore answering scientific questions with Cypher as we typically would with SQL in an RDBMS?  We'll explore SQL vs NoSQL in the graph DB context, and see some Cypher vs SQL approaches to Bioinformatics data - specifically to gene co-occurance across genomic features."},
+      {"img":"2.png","note":"Let's do this!  Cypher vs SQL, Rock 'em Sock 'em style."},
       {"img":"3.png","note":"Everyone loves a compare and contrast.  So let's match up SQL (as in RDBMS) and Cypher (as in Neo4j/GraphDB/NoSQL). In the Red corner is SQL, the reigning champ. In the Blue corner is NoSQL challenger."},
       {"img":"4.png","note":"<span class='round'>Round 1</span><hr/>SQL has many usage domains, defined data structure/model/schema, efficient storage and access mechanism. <p class='points'>Battle point: SQL</p>"},
       {"img":"5.png","note":"<span class='round'>Round 2</span><hr/>In a NoSQL graph DB the model <b><i>is</i></b> the database. <p class='points'>Battle point: NoSQL</p>"},
@@ -101,7 +101,7 @@
         "<p style='text-align:center;font-style:italic!important;color:red;'>(pftt.  what a cop out.)</p>"},
       {"img":"14.png","note":"&quot;It's the question that drives us. It's the question that brought you here.&quot; <br/>Science questions, of course."},
       {"img":"15.png","note":"The problem domain to look into:  ONCNET is a gene co-occurance DB we built to store analyzed genomics data, queryable and linkable to other internal systems.  Pilot goal was to answer various bioinformatics questions about gene networks."},
-      {"img":"16.png","note":"These types of questions.  Note: small font to de-emphasize exact Q's, but to show a relative list.  Feel free to use a microscope to read these (sorry, on the projector we could read these).  Blurred for your snooping inconvenience. :-)"},
+      {"img":"16.png","note":"To answer these types of questions.  Note: small font to de-emphasize exact Q's, but to show a relative list.  Feel free to use a microscope to read these (sorry, on the projector we could read these).  Blurred for your snooping inconvenience. :-)"},
       {"img":"17.png","note":"What problems did we face using SQL?  These for starters. <br/>What else could we try?  Umm, Facebook? No wait, Neo4j!  So the next slides will step thru a basic example approaching those prior questions.  In particular, we look at how to query data from Neo4, using Cypher, and how that stacks up to SQL.  I loaded the ONCNET data from the RDBMS we used, into Neo4j, using py2neo (thanks Nige/@technige !) and the batch importer (thanks Michael/@mesirii !) and awesome examples from Max De Marzi (thanks @maxdemarzi !). 700K nodes, ~1.2M edges, forgot how many properties (1.5M+?). Loaded in ~10min on my Macbook.  One-time load, who cares."},
       {"img":"18.png","note":"Let's grab a gene first.  NOTE: I had to smudge the actual gene names for IP reasons. Use your imagination. That green circle is our gene - a node in the graph."},
       {"img":"19.png","note":"How about features for that gene?  Mutations, gene expression, copy number, etc. The green blurred buttons were other canned gene cypher queries, clickable and dynamically executed.  The graph is a D3 force-directed plot, rendered on the fly in the presentation."},
