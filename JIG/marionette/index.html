@@ -1,0 +1,150 @@
+<html>
+<head>
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+  <script src="http://code.jquery.com/jquery.js"></script>
+</head>
+<style>
+
+  body {
+    padding: 0;
+    margin: 0;
+  }
+  .main{
+    min-width:1200px;
+  }
+  .head {
+    margin-top: 15px;
+    margin-left: 50px;
+  }
+  .handle a {
+    color: #000;
+    text-decoration: none;
+  }
+
+  .handle a:hover
+  {
+    color:#00A0C6;
+    text-decoration:none;
+    cursor:pointer;
+  }
+  .abstract p {
+    margin-left: 20px;
+    font-size: 1.1em;
+  }
+  .slides {
+    margin-left: 15px;
+    padding: 0;
+  }
+  .row{
+    margin-left: 10px;
+  }
+  .slide {
+    width: 680px;
+    height: 420px;
+    border: solid 2px lightgrey;
+    border-radius: 5px;
+    background-color: rgba(205,205,205,0.10);
+    cursor: pointer;
+  }
+  .slide:hover{
+    border-color: green;
+  }
+  .note {
+    font-size: 1.2em;
+  }
+  .right {
+    border: solid 1px lightgrey;
+    border-radius: 5px;
+    background-color: rgba(205,205,205,0.10);
+  }
+  .left {
+    padding: 0;
+  }
+  .round {
+    font-weight: bold;
+  }
+  .note hr {
+    margin-top: 2px;
+    margin-bottom: 5px;
+  }
+  .points {
+    font-size: small;
+    float: right;
+    margin-top: 5px;
+  }
+  .zoomed {
+    width: 1200px;
+    height: 750px;
+  }
+  .hidey {
+    display: none;
+  }
+</style>
+<script>
+  $(document).ready(function() {
+    var notes = [
+      {"img":"1.png","note":"Part 1 of the session was about backbone.js, given by another colleague."},
+      {"img":"2.png","note":"Reiterate how Backbone is useful for creating Model View Controller types of structure and wiring for applications.  Backbone Controllers are more like routers, so there are various flavors of MV* terms.  Bottom line is that BB provides the wiring and then gets out of your way.  You construct the structures to make it work."},
+      {"img":"3.png","note":"We often face spaghetti code, especially with jQuery...because it's easy and tasty. But it can quickly turn into madness: messy, unstructured code that becomes very difficult to maintain."},
+      {"img":"4.png","note":"Let's jump into our favorite spaghetti joint, chezQuery, for a sampler.  What's on the menu?  These are but a taste test for the buffet of noodliness that can pile up on large app projects. Imagine (or recall) how these patterns can be spread thoughout a code base.  Magnified as apps get larger."},
+      {"img":"5.png","note":"BB can help by providing structure and patterns that obviate the need to sprinkle disjointed bits of code around your app.  I call it the spaghetti spoon."},
+      {"img":"6.png","note":"We saw in the previous presentation how BB can be an effective tool against poorly structured code.  But even though BB helps contain wiley code, it is still just a utensil. You have to find the appropriate ways to use it. In large apps you will find yourself repeating BB patterns and object code, manually managing event bindings and view layouts, and tackling DOM CRUD."},
+      {"img":"7.png","note":"Marionette steps in to take care of the BB boilerplate code.  It helps simplify the structure, manage events to avoid zombie views (unreleased memory objects), and bring general happiness to you and your BB code."},
+      {"img":"8.png","note":"What is Marionette?  An Open Source JS framework on top of BB.  Originally written by prolific Javascripter Derick Bailey."},
+      {"img":"9.png","note":"Why use it?  Scales up well. Manages events. Helps modularize your app code. It's an extension to BB so you can use your existing BB code or mix BB and Marionette structures.  Helps manage layouts and prevent zombies."},
+      {"img":"10.png","note":"How to use it?  Download it, and some related libs, and then Go! It's easy. Check out the resources below for refs, or find online tutorials lostechies.com.  And checkout the nice docs too."},
+      {"img":"11.png","note":"What are the things Marionette provides?  <br/>We'll step thru these."},
+      {"img":"12.png","note":"Here are some formalized defs for the relevant Marionette pieces we'll discuss. You can find these on the Marionette wiki."},
+      {"img":"13.png","note":"Let's start with the App object.  Good for namespacing your app, storing static code bits (constants, etc), and has a built-in event manager.  This is your app starting point.  (Show some live internal prod app code ...not publicly available, and no slides for this.)"},
+      {"img":"14.png","note":"These are the 3 views that Marionette provides.  These extend the BB View class and so they have the usual events, render, and init methods and hashes."},
+      {"img":"15.png","note":"Views: simplest view is the Item View. It uses a model and a template and is often constructed via Composite and Collection Views."},
+      {"img":"16.png","note":"Views: A Collection View uses an Item View and initializes one for each model in its collection."},
+      {"img":"17.png","note":"Views: A Composite View is a Collection View but uses a template to add extra HTML stuff.  See examples."},
+      {"img":"18.png","note":"In our internal prod app we use a Composite View as part of the search results facet view - a nested list where each row is an ItemView and each group is a Composite View and the list of groups is based on the parent Collection View."},
+      {"img":"19.png","note":"The example Collection/Composite/ItemView code has the CollectionView shown at the bottom, which has the facet group collection. It calls the Composite View for each  group item (model). The CompositeView in the middle uses a crossfilter.js object previously created to generate dimension/facets for its colelction to iterate over for the ItemView rendering at the top."},
+      {"img":"20.png","note":"The Marionette Layout Mgr is very handy for rendering views and managing sub-views."},
+      {"img":"21.png","note":"We found Layouts to so useful that we easily started to overload them with cross-view management filled with listeners and multiple view rendering. It works well, but would be cleaner if we could pull out more of the app control to a Controller (go figure). But Layout managers really help to componentize the various parts of your app. We have separate Layout Mgrs for Search, Facets, Filters, Grids, Reg Forms, etc.  Each component is self-contained which makes for easy part-swapping."},
+      {"img":"22.png","note":"Regions do more of the view management. These are very handy.  Define a region pointing to a DOM element in your template, then create a view and pass it into the Region's show method.  It handles all the event binding/unbinding and object creation/destruction for you.  It's an anti-zombie weapon."},
+      {"img":"23.png","note":"Hey Zombies, meet your new Region Managers.  Go see Zombieland if you haven't already."},
+      {"img":"24.png","note":"Example app that implements layouts and regions to build and manage a page that runs searches, shows result grids, provides filter and facet features...all of which are views built on the same underlying data objects with view re-rendering handled by Regions."},
+      {"img":"25.png","note":"So how do you wire up an event? Say we want a facet item selection to filter the results table (view).  Marionette has an eventing library called Wreqr that can be used to implement Event Aggregation, Commands, or Request-Response style event handling."},
+      {"img":"26.png","note":"In our prod app we used the Aggregator pattern (show some app code).  We first tried a global event manager, but found as our app grew the list of events and thus the object itself got tedious and difficult to manage.  What events were still active? Which were deprecated by other developers and not cleaned up?  Would be ideal to have each component provide and manage all of its own events.  So all that is needed is to have the component trigger the event and its parent (its layout mgr) has to deal with it.  This back-fired a tad when we switched to that scheme. Since we can have deeply nested levels of layouts and regions, we found we had to chain the listeners all the way up to the page layout mgr.  We then started to use a page level event mgr with some success.  Still would be nice to explore using a controller at that level instead. "},
+      {"img":"27.png","note":"Other things I'd consider trying for our app: mixing in some Command event patterns, implementing true Marionette Modules - these can be self-contained and startable - and Controllers."},
+      {"img":"28.png","note":"A few resources I found useful.  Lots out there."},
+      {"img":"29.png","note":"me <br/>@LarryHengl <br/>larryhengl.github.io"},
+    ];
+    notes.forEach(function(slide,i) {
+      ++i;
+      var row = $('<div class="row"></div></br/>'),
+          left = $('<div class="left col-lg-7"></>').html('<img class="slide" src="img/' + slide.img + '" alt="slide' + i +'"/>'),
+          right = $('<div class="right col-lg-5"></>').html('<span class="note">' + slide.note + '</span>');
+      $(".slides").append(row);
+      row.append(left);
+      row.append(right);
+    });
+
+    $(".slide").click(function(){
+      $(this).toggleClass("zoomed");
+      $(this).parents(".row").find(".right").toggleClass("hidey");
+    });
+
+  });
+</script>
+<body>
+  <div class="main">
+    <div class="head container row">
+      <div class="handle col-md-3">
+        <h3><a href="http://www.twitter.com/larryhengl">@LarryHengl</a></h3>
+      </div>
+      <div class="abstract col-md-9">
+        <p>Slides from a presentation I gave at an internal Novartis Javascript Interest Group meeting.
+          <br/><b>Covers Marionette.js</b>.</p>
+        <p>Goals: Intro level, with examples and live demos of interanlly built apps that use Marionette. Stir some interest and keep it entertaining.</p>
+        <p>Notes: This was interactive presentation used arrows.js for the interactive graph outline, and good old fashioned html/css/js.  These are snaps and post-hoc notes to add-back a little context.  Some parts may be blurred to mask IP-related information.</p>
+      </div>
+    </div>
+    <hr/>
+    <div class="slides container"></div>
+  </div>
+</body>
+</html>
